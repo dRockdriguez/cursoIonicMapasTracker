@@ -6,15 +6,29 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { UsuarioProvider } from '../providers/usuario/usuario';
+import { AngularFireModule } from '@angular/fire';
+import { config } from '../config/firebase.config';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { IonicStorageModule } from '@ionic/storage';
+import { UbicacionProvider } from '../providers/ubicacion/ubicacion';
+import { Geolocation } from '@ionic-native/geolocation';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(config),
+    AngularFirestoreModule,
+    IonicStorageModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyD5GzTdXrMwaqaRv93h-5Js7IiKYUZiItk'
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -24,7 +38,10 @@ import { HomePage } from '../pages/home/home';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    UsuarioProvider,
+    UbicacionProvider,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    Geolocation
   ]
 })
-export class AppModule {}
+export class AppModule { }
